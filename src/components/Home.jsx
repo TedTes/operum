@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
+import MatrixTransform from './MatrixTransform';
 
 const Home = () => {
   const canvasRef = useRef(null);
@@ -458,46 +459,52 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Tool Workspace - Placeholder */}
+        {/* Tool Workspace */}
         {selectedTool && (
-          <div 
-            className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-6"
-            onClick={() => setSelectedTool(null)}
-          >
-            <div 
-              className="bg-slate-900 rounded-3xl border border-white/20 max-w-6xl w-full max-h-[90vh] overflow-auto p-8"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">
-                    {tools.find(t => t.id === selectedTool)?.title}
-                  </h2>
-                  <p className="text-gray-400">
-                    {tools.find(t => t.id === selectedTool)?.description}
-                  </p>
-                </div>
-                <button 
-                  onClick={() => setSelectedTool(null)}
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors"
+          <>
+            {selectedTool === 'matrix-transform' ? (
+              <MatrixTransform onClose={() => setSelectedTool(null)} />
+            ) : (
+              <div 
+                className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+                onClick={() => setSelectedTool(null)}
+              >
+                <div 
+                  className="bg-slate-900 rounded-3xl border border-white/20 max-w-6xl w-full max-h-[90vh] overflow-auto p-8"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  Close
-                </button>
-              </div>
-
-              {/* Tool content will go here */}
-              <div className="bg-white/5 rounded-2xl border border-white/10 p-8 min-h-[500px] flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-6xl mb-4">
-                    {tools.find(t => t.id === selectedTool)?.icon}
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h2 className="text-3xl font-bold text-white mb-2">
+                        {tools.find(t => t.id === selectedTool)?.title}
+                      </h2>
+                      <p className="text-gray-400">
+                        {tools.find(t => t.id === selectedTool)?.description}
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => setSelectedTool(null)}
+                      className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors"
+                    >
+                      Close
+                    </button>
                   </div>
-                  <p className="text-gray-400">
-                    Tool implementation coming next...
-                  </p>
+
+                  {/* Tool content placeholder */}
+                  <div className="bg-white/5 rounded-2xl border border-white/10 p-8 min-h-[500px] flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-6xl mb-4">
+                        {tools.find(t => t.id === selectedTool)?.icon}
+                      </div>
+                      <p className="text-gray-400">
+                        Tool implementation coming next...
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
+          </>
         )}
 
       </div>
