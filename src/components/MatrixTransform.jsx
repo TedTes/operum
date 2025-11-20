@@ -41,6 +41,64 @@ const MatrixTransform = ({ onClose }) => {
     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
   };
 
+  // Get dynamic explanation based on current state
+  const getExplanation = () => {
+    const det = getDeterminant(getTransformMatrix());
+    const isIdentity = rotation === 0 && scale === 1;
+    const isPureRotation = scale === 1 && rotation !== 0;
+    const isPureScale = rotation === 0 && scale !== 1;
+    const isCollapsed = Math.abs(scale) < 0.01;
+    const isNegative = scale < 0;
+
+    if (isIdentity) {
+      return {
+        title: "Identity Matrix",
+        description: "No transformation applied. The F remains in its original position and size.",
+        insight: "The identity matrix [[1,0],[0,1]] leaves everything unchanged."
+      };
+    }
+
+    if (isCollapsed) {
+      return {
+        title: "⚠️ Collapsed to a Point!",
+        description: "The F has shrunk to nearly zero size. All area is lost.",
+        insight: "When scale approaches 0, determinant → 0, meaning the shape loses its 2D area and becomes 1D (a line) or 0D (a point)."
+      };
+    }
+
+    if (isPureRotation) {
+      return {
+        title: "Pure Rotation",
+        description: `The F is rotating ${Math.abs(rotation)}° ${rotation > 0 ? 'counter-clockwise' : 'clockwise'}. Notice how it spins but doesn't change size.`,
+        insight: "Rotation preserves area! That's why determinant stays at 1.00. The shape spins but doesn't stretch."
+      };
+    }
+
+    if (isPureScale) {
+      const growing = scale > 1;
+      return {
+        title: growing ? "Scaling Up" : "Scaling Down",
+        description: `The F is ${growing ? 'growing' : 'shrinking'} uniformly by ${scale.toFixed(2)}x. ${growing ? 'Each side gets longer.' : 'Each side gets shorter.'}`,
+        insight: `Area scales by scale² = ${scale.toFixed(2)}² = ${det.toFixed(2)}. That's why determinant = ${det.toFixed(2)}.`
+      };
+    }
+
+    if (isNegative) {
+      return {
+        title: "Negative Scale (Reflection!)",
+        description: `The F is reflected (flipped) and scaled by ${Math.abs(scale).toFixed(2)}x. Notice the negative determinant.`,
+        insight: "Negative determinant means orientation is reversed - like looking in a mirror. The absolute value tells you the area scaling."
+      };
+    }
+
+    // Combined transformation
+    return {
+      title: "Combined Transformation",
+      description: `The F is both rotating ${Math.abs(rotation)}° and scaling ${scale.toFixed(2)}x. Two transformations at once!`,
+      insight: `Rotation doesn't affect determinant, only scale does. Det = ${det.toFixed(2)} means areas are multiplied by ${det.toFixed(2)}.`
+    };
+  };
+
   // Draw on canvas
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -134,19 +192,19 @@ const MatrixTransform = ({ onClose }) => {
   const determinant = getDeterminant(matrix);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-      <div className="bg-slate-900 rounded-3xl border border-white/20 max-w-4xl w-full p-8">
+    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-slate-900 rounded-3xl border border-white/20 w-full max-w-4xl my-8 p-6 md:p-8 max-h-[95vh] overflow-y-auto">
         {/* Header */}
-        <div className="flex justify-between items-start mb-6">
+        <div className="flex justify-between items-start mb-4 md:mb-6 sticky top-0 bg-slate-900 z-10 pb-4 border-b border-white/10">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
               Matrix Transformations
             </h2>
-            <p className="text-gray-400">See how matrices transform space</p>
+            <p className="text-sm md:text-base text-gray-400">See how matrices transform space</p>
           </div>
           <button 
             onClick={onClose}
-            className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors"
+            className="px-3 py-2 md:px-4 md:py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors text-sm"
           >
             Close
           </button>
@@ -185,11 +243,11 @@ const MatrixTransform = ({ onClose }) => {
             {/* Scale Control */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                Scale: {scale.toFixed(2)}x
+                Scale: {scale.toFixed(2)}x {scale < 0 && '(Reflected)'}
               </label>
               <input
                 type="range"
-                min="0.1"
+                min="-3"
                 max="3"
                 step="0.1"
                 value={scale}
@@ -226,11 +284,11 @@ const MatrixTransform = ({ onClose }) => {
               <h3 className="text-sm font-semibold text-gray-400 mb-2">
                 Determinant
               </h3>
-              <div className="text-2xl font-bold text-cyan-400">
+              <div className={`text-2xl font-bold ${determinant < 0 ? 'text-orange-400' : 'text-cyan-400'}`}>
                 {determinant.toFixed(2)}
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                Area scaling factor
+                {determinant < 0 ? '⚠️ Orientation flipped!' : 'Area scaling factor'}
               </p>
             </div>
 
@@ -250,15 +308,41 @@ const MatrixTransform = ({ onClose }) => {
                 </div>
               </div>
             </div>
+
+            {/* Live Explanation */}
+            <div className="bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-xl border border-cyan-500/30 p-4">
+              <h3 className="text-sm font-bold text-cyan-400 mb-2 flex items-center gap-2">
+                💡 {getExplanation().title}
+              </h3>
+              <p className="text-sm text-gray-300 mb-3 leading-relaxed">
+                {getExplanation().description}
+              </p>
+              <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  <strong className="text-cyan-400">Key Insight:</strong> {getExplanation().insight}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Instructions */}
         <div className="mt-6 bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4">
-          <p className="text-sm text-cyan-300">
-            💡 <strong>Tip:</strong> Drag the sliders to see how the letter F transforms. 
-            The faint cyan F shows the original, and the bright purple F shows the result.
-          </p>
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🎯</span>
+            <div className="flex-1">
+              <p className="text-sm text-cyan-300 font-semibold mb-2">
+                How to Explore:
+              </p>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>• Drag <strong>Rotation</strong> to spin the F around</li>
+                <li>• Drag <strong>Scale</strong> to grow or shrink the F</li>
+                <li>• Watch how the <strong>determinant</strong> changes (area scaling)</li>
+                <li>• Try <strong>negative scale</strong> values to see reflection!</li>
+                <li>• Notice: rotation doesn't change the determinant</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
 
