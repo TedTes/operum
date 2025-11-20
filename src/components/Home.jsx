@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import MatrixTransform from './MatrixTransform';
 import GradientDescent from './GradientDescent';
+import VectorSpaces from './VectorSpaces';
 
 const Home = () => {
   const canvasRef = useRef(null);
@@ -467,6 +468,8 @@ const Home = () => {
               <MatrixTransform onClose={() => setSelectedTool(null)} />
             ) : selectedTool === 'gradient-descent' ? (
               <GradientDescent onClose={() => setSelectedTool(null)} />
+            ) : selectedTool === 'vector-spaces' ? (
+              <VectorSpaces onClose={() => setSelectedTool(null)} />
             ) : (
               <div 
                 className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-6"
