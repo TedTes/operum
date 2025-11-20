@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, Fragment } from 'react';
 import MatrixTransform from './MatrixTransform';
 import GradientDescent from './GradientDescent';
 import VectorSpaces from './VectorSpaces';
+import SVD from './SVD';
 
 const Home = () => {
   const canvasRef = useRef(null);
@@ -470,7 +471,9 @@ const Home = () => {
               <GradientDescent onClose={() => setSelectedTool(null)} />
             ) : selectedTool === 'vector-spaces' ? (
               <VectorSpaces onClose={() => setSelectedTool(null)} />
-            ) : (
+            ) : selectedTool === 'svd' ? (
+              <SVD onClose={() => setSelectedTool(null)} />
+            ): (
               <div 
                 className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-6"
                 onClick={() => setSelectedTool(null)}
