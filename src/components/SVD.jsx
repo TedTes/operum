@@ -228,24 +228,8 @@ const SVD = ({ onClose }) => {
   const compressionRatio = ((1 - rank / maxRank) * 100).toFixed(0);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-slate-900 rounded-3xl border border-white/20 w-full max-w-5xl my-8 p-6 md:p-8 max-h-[95vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex justify-between items-start mb-4 md:mb-6 sticky top-0 bg-slate-900 z-10 pb-4 border-b border-white/10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
-              Singular Value Decomposition
-            </h2>
-            <p className="text-sm md:text-base text-gray-400">Matrix factorization in action</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="px-3 py-2 md:px-4 md:py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors text-sm"
-          >
-            Close
-          </button>
-        </div>
-
+    <div className="p-6 md:p-8 h-full overflow-y-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Canvas */}
           <div className="lg:col-span-2">
@@ -450,24 +434,6 @@ const SVD = ({ onClose }) => {
                   <span className="text-gray-400">Transformed shape</span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <div className="mt-4 md:mt-6 bg-purple-500/10 border border-purple-500/30 rounded-xl p-3 md:p-4">
-          <div className="flex items-start gap-2 md:gap-3">
-            <span className="text-xl md:text-2xl">🎯</span>
-            <div className="flex-1">
-              <p className="text-xs md:text-sm text-purple-300 font-semibold mb-1.5 md:mb-2">
-                Try This:
-              </p>
-              <ul className="text-xs md:text-sm text-gray-300 space-y-0.5 md:space-y-1">
-                <li>• Click <strong>Play Animation</strong> to see the decomposition steps</li>
-                <li>• Adjust <strong>Rank slider</strong> to see compression (lower rank = more compression)</li>
-                <li>• Use <strong>step buttons</strong> to manually control the transformation</li>
-                <li>• Watch singular values - brighter = more important for reconstruction</li>
-              </ul>
             </div>
           </div>
         </div>

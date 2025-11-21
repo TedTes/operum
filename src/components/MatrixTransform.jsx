@@ -192,24 +192,8 @@ const MatrixTransform = ({ onClose }) => {
   const determinant = getDeterminant(matrix);
 
   return (
-    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-slate-900 rounded-3xl border border-white/20 w-full max-w-4xl my-8 p-6 md:p-8 max-h-[95vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex justify-between items-start mb-4 md:mb-6 sticky top-0 bg-slate-900 z-10 pb-4 border-b border-white/10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
-              Matrix Transformations
-            </h2>
-            <p className="text-sm md:text-base text-gray-400">See how matrices transform space</p>
-          </div>
-          <button 
-            onClick={onClose}
-            className="px-3 py-2 md:px-4 md:py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors text-sm"
-          >
-            Close
-          </button>
-        </div>
-
+    <div className="p-6 md:p-8 h-full overflow-y-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Canvas */}
           <div className="lg:col-span-2">
@@ -325,52 +309,7 @@ const MatrixTransform = ({ onClose }) => {
             </div>
           </div>
         </div>
-
-        {/* Instructions */}
-        <div className="mt-6 bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">🎯</span>
-            <div className="flex-1">
-              <p className="text-sm text-cyan-300 font-semibold mb-2">
-                How to Explore:
-              </p>
-              <ul className="text-sm text-gray-300 space-y-1">
-                <li>• Drag <strong>Rotation</strong> to spin the F around</li>
-                <li>• Drag <strong>Scale</strong> to grow or shrink the F</li>
-                <li>• Watch how the <strong>determinant</strong> changes (area scaling)</li>
-                <li>• Try <strong>negative scale</strong> values to see reflection!</li>
-                <li>• Notice: rotation doesn't change the determinant</li>
-              </ul>
-            </div>
-          </div>
-        </div>
       </div>
-
-      <style jsx>{`
-        .slider::-webkit-slider-thumb {
-          appearance: none;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-          cursor: pointer;
-          box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-        
-        .slider::-moz-range-thumb {
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #06b6d4, #8b5cf6);
-          cursor: pointer;
-          border: none;
-          box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-
-        .shadow-glow {
-          box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
-        }
-      `}</style>
     </div>
   );
 };

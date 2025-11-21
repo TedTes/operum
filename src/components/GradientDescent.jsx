@@ -200,24 +200,8 @@ const GradientDescent = ({ onClose }) => {
   const isConverged = currentLoss < 0.01;
 
   return (
-    <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-slate-900 rounded-3xl border border-white/20 w-full max-w-5xl my-8 p-6 md:p-8 max-h-[95vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex justify-between items-start mb-4 md:mb-6 sticky top-0 bg-slate-900 z-10 pb-4 border-b border-white/10">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2">
-              Gradient Descent
-            </h2>
-            <p className="text-sm md:text-base text-gray-400">Watch optimization find the minimum</p>
-          </div>
-          <button 
-            onClick={onClose}
-            className="px-3 py-2 md:px-4 md:py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 transition-colors text-sm"
-          >
-            Close
-          </button>
-        </div>
-
+    <div className="p-6 md:p-8 h-full overflow-y-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Canvas */}
           <div className="lg:col-span-2">
@@ -377,24 +361,6 @@ const GradientDescent = ({ onClose }) => {
                   <span className="text-gray-400">Surface (red=high, blue=low)</span>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <div className="mt-4 md:mt-6 bg-purple-500/10 border border-purple-500/30 rounded-xl p-3 md:p-4">
-          <div className="flex items-start gap-2 md:gap-3">
-            <span className="text-xl md:text-2xl">💡</span>
-            <div className="flex-1">
-              <p className="text-xs md:text-sm text-purple-300 font-semibold mb-1.5 md:mb-2">
-                Try This:
-              </p>
-              <ul className="text-xs md:text-sm text-gray-300 space-y-0.5 md:space-y-1">
-                <li>• Click <strong>Random</strong> to start from different positions</li>
-                <li>• Try <strong>high learning rate</strong> (0.5+) to see overshooting</li>
-                <li>• Try <strong>low learning rate</strong> (0.01) to see slow descent</li>
-                <li>• Rotate the view to see the 3D surface from different angles</li>
-              </ul>
             </div>
           </div>
         </div>
