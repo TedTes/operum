@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,ConvexOptimization} from "./"
+import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,ConvexOptimization,ProbabilityDistributions} from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -44,7 +44,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
     {
       name: 'Probability & Statistics',
       tools: [
-        { id: 'probability-dist', name: 'Probability Distributions', icon: '🎲', disabled: true },
+        { id: 'probability-dist', name: 'Probability Distributions', icon: '🎲'},
         { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮', disabled: true },
         { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰', disabled: true },
         { id: 'linear-regression', name: 'Linear Regression', icon: '📊', disabled: true },
@@ -89,6 +89,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <LagrangeMultipliers onClose={() => {}} />;
       case 'convex-opt':
         return <ConvexOptimization onClose={() => {}} />;
+      case 'probability-dist':
+        return <ProbabilityDistributions onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -310,6 +312,44 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Switch to Non-Convex - gets stuck in local minima',
         'Drag start point - different starting points → different results',
         'Try Saddle - gradient descent gets confused!'
+      ]
+    }
+  ]
+},
+'probability-dist': {  // ← ADD THIS ENTIRE OBJECT
+  title: 'Probability Distributions',
+  sections: [
+    {
+      heading: 'What Are Probability Distributions?',
+      content: 'A probability distribution describes how likely different outcomes are. The PDF (Probability Density Function) shows the shape, while the CDF (Cumulative Distribution Function) shows accumulated probability up to a point.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Distributions model uncertainty everywhere: stock returns (Normal), customer arrivals (Poisson), system failures (Exponential), survey responses (Binomial). Understanding distributions is fundamental to statistics and machine learning.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Think of PDF as a hill - tall sections are more likely outcomes. CDF is like walking up that hill - it shows total probability up to each point (always increases from 0 to 1). Samples show what you\'d actually observe in practice.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'PDF: Height = likelihood (area under curve = probability)',
+        'CDF: Cumulative probability from -∞ to x',
+        'Normal: Bell curve, models averages (CLT)',
+        'Binomial: Coin flips, fixed trials',
+        'Poisson: Rare events, variable occurrences',
+        'Exponential: Waiting times between events'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Normal: Change μ (shifts curve), σ (width)',
+        'Binomial: n=20, p=0.5 looks like Normal!',
+        'Enable Samples - see theory match reality',
+        'Compare PDF vs CDF - CDF always increases',
+        'Poisson: Low λ = rare events, High λ = frequent'
       ]
     }
   ]
