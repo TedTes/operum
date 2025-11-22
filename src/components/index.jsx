@@ -7,4 +7,5 @@ export * from "./ToolWorkSpace";
 export * from "./Home";
 export * from "./LagrangeMultipliers";
 export * from "./ConvexOptimization";
-export * from "./ProbabilityDistributions"
+export * from "./ProbabilityDistributions";
+export * from "./BayesianInference";

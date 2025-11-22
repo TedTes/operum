@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,ConvexOptimization,ProbabilityDistributions} from "./"
+import {LagrangeMultipliers,
+  SVD,
+  VectorSpaces,
+  GradientDescent,
+  MatrixTransform,
+  ConvexOptimization,
+  ProbabilityDistributions,
+  BayesianInference
+} from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -45,7 +53,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       name: 'Probability & Statistics',
       tools: [
         { id: 'probability-dist', name: 'Probability Distributions', icon: '🎲'},
-        { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮', disabled: true },
+        { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮'},
         { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰', disabled: true },
         { id: 'linear-regression', name: 'Linear Regression', icon: '📊', disabled: true },
         { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈', disabled: true },
@@ -91,6 +99,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <ConvexOptimization onClose={() => {}} />;
       case 'probability-dist':
         return <ProbabilityDistributions onClose={() => {}} />;
+      case 'bayes-theorem':
+        return <BayesianInference onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -316,7 +326,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
     }
   ]
 },
-'probability-dist': {  // ← ADD THIS ENTIRE OBJECT
+'probability-dist': {
   title: 'Probability Distributions',
   sections: [
     {
@@ -350,6 +360,43 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Enable Samples - see theory match reality',
         'Compare PDF vs CDF - CDF always increases',
         'Poisson: Low λ = rare events, High λ = frequent'
+      ]
+    }
+  ]
+},
+'bayes-theorem': {  // ← ADD THIS ENTIRE OBJECT
+  title: 'Bayesian Inference',
+  sections: [
+    {
+      heading: 'What Is Bayesian Inference?',
+      content: 'A method for updating beliefs with evidence. Start with a prior belief (what you think before seeing data), combine it with likelihood (how well data fits different hypotheses), and get a posterior (updated belief after seeing data).'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Bayesian thinking powers spam filters, medical diagnosis, A/B testing, machine learning (Bayesian optimization, neural networks), and scientific reasoning. It naturally handles uncertainty and incorporates prior knowledge.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine you\'re flipping a coin. Before any flips (prior), you might think it\'s fair (50/50). After 7 heads and 3 tails (likelihood), you update: "probably biased toward heads" (posterior). More data → sharper beliefs (narrower distribution).'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Prior: Your initial belief before seeing data',
+        'Likelihood: How probable the data is under different hypotheses',
+        'Posterior: Updated belief after combining prior + likelihood',
+        'Credible Interval: Range where true value likely lies (95% CI)',
+        'Conjugate Priors: Prior + Likelihood → Same family (Beta-Binomial here)'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Uniform Prior + observations → watch belief form from nothing',
+        'Informative Prior (70%) + observations → see if data confirms or rejects',
+        'Skeptical Prior (20%) + observations → strong data overcomes prior',
+        'Add 100+ observations → all priors converge to truth!',
+        'Change True Rate → see how quickly Bayes adapts'
       ]
     }
   ]
