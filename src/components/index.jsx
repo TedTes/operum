@@ -6,3 +6,4 @@ export * from "./VectorSpaces";
 export * from "./ToolWorkSpace";
 export * from "./Home";
 export * from "./LagrangeMultipliers";
+export * from "./ConvexOptimization";

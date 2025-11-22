@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,} from "./"
+import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,ConvexOptimization} from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -38,7 +38,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       tools: [
         { id: 'gradient-descent', name: 'Gradient Descent', icon: '⛰️' },
         { id: 'lagrange', name: 'Lagrange Multipliers', icon: '🎚️' },
-        { id: 'convex-opt', name: 'Convex Optimization', icon: '📉', disabled: true }
+        { id: 'convex-opt', name: 'Convex Optimization', icon: '📉' }
       ]
     },
     {
@@ -87,6 +87,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <SVD onClose={() => {}} />;
       case 'lagrange':
         return <LagrangeMultipliers onClose={() => {}} />;
+      case 'convex-opt':
+        return <ConvexOptimization onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -276,7 +278,42 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
             ]
           }
         ]
-      }
+      },
+      'convex-opt': { 
+  title: 'Convex Optimization',
+  sections: [
+    {
+      heading: 'What Is Convex Optimization?',
+      content: 'A convex function has a bowl shape - any local minimum is the global minimum. Non-convex functions have multiple valleys where gradient descent can get stuck.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Convex problems are "easy" - gradient descent always works! Most ML loss functions are designed to be convex (or nearly so). Non-convex problems (like neural networks) need special techniques.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine a ball rolling downhill. On a convex surface (bowl), it always reaches the lowest point. On a non-convex surface (mountains and valleys), it might get stuck in a local valley that\'s not the deepest one.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Convex: Single bowl - any local min = global min',
+        'Non-Convex: Multiple valleys - local minima exist',
+        'Saddle Point: Neither min nor max - flat in some directions',
+        'Global vs Local: Best overall vs best nearby'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Start with Convex - always finds global minimum',
+        'Switch to Non-Convex - gets stuck in local minima',
+        'Drag start point - different starting points → different results',
+        'Try Saddle - gradient descent gets confused!'
+      ]
+    }
+  ]
+}
     };
 
     return guides[selectedTool] || {
