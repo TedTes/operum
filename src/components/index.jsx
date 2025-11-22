@@ -5,3 +5,4 @@ export * from "./ToolWorkSpace";
 export * from "./VectorSpaces";
 export * from "./ToolWorkSpace";
 export * from "./Home";
+export * from "./LagrangeMultipliers";

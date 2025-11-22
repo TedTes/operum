@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {SVD,VectorSpaces,GradientDescent,MatrixTransform,} from './';
-
+import {LagrangeMultipliers,SVD,VectorSpaces,GradientDescent,MatrixTransform,} from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -38,7 +37,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       name: 'Optimization',
       tools: [
         { id: 'gradient-descent', name: 'Gradient Descent', icon: '⛰️' },
-        { id: 'lagrange', name: 'Lagrange Multipliers', icon: '🎚️', disabled: true },
+        { id: 'lagrange', name: 'Lagrange Multipliers', icon: '🎚️' },
         { id: 'convex-opt', name: 'Convex Optimization', icon: '📉', disabled: true }
       ]
     },
@@ -86,6 +85,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <VectorSpaces onClose={() => {}} />;
       case 'svd':
         return <SVD onClose={() => {}} />;
+      case 'lagrange':
+        return <LagrangeMultipliers onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -237,6 +238,41 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
               'Rank = 2 (full) - perfect reconstruction',
               'Rank = 1 - only dominant pattern (50% compression)',
               'Watch singular values - bright = important'
+            ]
+          }
+        ]
+      },
+      'lagrange': {
+        title: 'Lagrange Multipliers',
+        sections: [
+          {
+            heading: 'What Are Lagrange Multipliers?',
+            content: 'A method for finding maxima/minima of a function subject to constraints. Instead of searching everywhere, you only look along the constraint (like finding the highest point on a path up a mountain).'
+          },
+          {
+            heading: 'Why It Matters',
+            content: 'Constrained optimization is everywhere: maximizing profit with limited budget, training neural networks with regularization, physics (finding equilibrium states), economics (utility maximization), and engineering design.'
+          },
+          {
+            heading: 'The Intuition',
+            content: 'At the optimum, you can\'t improve by moving along the constraint. This happens when the objective gradient ∇f is perpendicular to the constraint - or parallel to the constraint\'s gradient ∇g. So ∇f = λ∇g for some λ (the Lagrange multiplier).'
+          },
+          {
+            heading: 'Key Concepts',
+            list: [
+              'Constraint: Equation that limits where you can go (g(x,y) = 0)',
+              'Lagrangian: L = f + λg (combines objective and constraint)',
+              'λ (lambda): How much the constraint "costs" the objective',
+              'Optimality: ∇f = λ∇g (gradients aligned at solution)'
+            ]
+          },
+          {
+            heading: 'Try This',
+            list: [
+              'Adjust λ - watch λ∇g try to match ∇f',
+              'When λ ≈ 2, gradients align (optimal!)',
+              'Rotate the view to see the 3D surface',
+              'Toggle gradients off to see just the constraint'
             ]
           }
         ]
