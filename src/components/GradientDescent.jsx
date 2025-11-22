@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const GradientDescent = ({ onClose }) => {
+export const GradientDescent = ({ onClose }) => {
   const canvasRef = useRef(null);
   const animationRef = useRef(null);
   
@@ -390,5 +390,3 @@ const GradientDescent = ({ onClose }) => {
     </div>
   );
 };
-
-export default GradientDescent;

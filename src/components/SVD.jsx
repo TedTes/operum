@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const SVD = ({ onClose }) => {
+export const SVD = ({ onClose }) => {
   const canvasRef = useRef(null);
   const [rank, setRank] = useState(2);
   const [maxRank, setMaxRank] = useState(2);
@@ -463,5 +463,3 @@ const SVD = ({ onClose }) => {
     </div>
   );
 };
-
-export default SVD;

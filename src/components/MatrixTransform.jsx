@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const MatrixTransform = ({ onClose }) => {
+export const MatrixTransform = ({ onClose }) => {
   const canvasRef = useRef(null);
   const [rotation, setRotation] = useState(0);
   const [scale, setScale] = useState(1);
@@ -313,5 +313,3 @@ const MatrixTransform = ({ onClose }) => {
     </div>
   );
 };
-
-export default MatrixTransform;

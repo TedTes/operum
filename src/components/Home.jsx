@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import ToolWorkspace from './ToolWorkSpace';
-import SVD from './SVD';
+import {ToolWorkspace,SVD} from './';
 
-const Home = () => {
+
+export const Home = () => {
   const canvasRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [selectedTool, setSelectedTool] = useState(null);
@@ -472,5 +472,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

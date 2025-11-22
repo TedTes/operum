@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import MatrixTransform from './MatrixTransform';
-import GradientDescent from './GradientDescent';
-import VectorSpaces from './VectorSpaces';
-import SVD from './SVD';
 
-const ToolWorkspace = ({ initialTool, onClose }) => {
+import {SVD,VectorSpaces,GradientDescent,MatrixTransform,} from './';
+
+export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
   const [showRightSidebar, setShowRightSidebar] = useState(true);
@@ -415,5 +413,3 @@ const ToolWorkspace = ({ initialTool, onClose }) => {
     </div>
   );
 };
-
-export default ToolWorkspace;

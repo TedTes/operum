@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const VectorSpaces = ({ onClose }) => {
+export const VectorSpaces = ({ onClose }) => {
   const canvasRef = useRef(null);
   const [vectors, setVectors] = useState([
     { x: 150, y: -100, id: 1 },
@@ -464,5 +464,3 @@ const VectorSpaces = ({ onClose }) => {
     </div>
   );
 };
-
-export default VectorSpaces;
