@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MatrixTransform from './MatrixTransform';
 import GradientDescent from './GradientDescent';
 import VectorSpaces from './VectorSpaces';
@@ -8,6 +8,23 @@ const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
   const [showRightSidebar, setShowRightSidebar] = useState(true);
+
+  // Auto-hide sidebars on mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setShowLeftSidebar(false);
+        setShowRightSidebar(false);
+      } else {
+        setShowLeftSidebar(true);
+        setShowRightSidebar(true);
+      }
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // All available tools organized by category
   const toolCategories = [
@@ -239,74 +256,89 @@ const ToolWorkspace = ({ initialTool, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-slate-950/95 backdrop-blur-sm z-50 flex">
-      {/* Left Sidebar - Tools List */}
-      <div className={`bg-slate-900 border-r border-white/10 transition-all duration-300 ${
-        showLeftSidebar ? 'w-64' : 'w-0'
-      } overflow-hidden`}>
-        <div className="h-full overflow-y-auto p-4">
-          {/* Header */}
-          <div className="mb-6">
-            <h2 className="text-xl font-bold text-white mb-2">Applied Math Lab</h2>
-            <button
-              onClick={onClose}
-              className="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition-colors"
-            >
-              ← Back to Home
-            </button>
-          </div>
+      {/* Mobile backdrop - clicks outside sidebar to close */}
+      {(showLeftSidebar || showRightSidebar) && window.innerWidth < 1024 && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => {
+            setShowLeftSidebar(false);
+            setShowRightSidebar(false);
+          }}
+        />
+      )}
 
-          {/* Categories */}
-          <div className="space-y-6">
-            {toolCategories.map((category) => (
-              <div key={category.name}>
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                  {category.name}
-                </h3>
-                <div className="space-y-1">
-                  {category.tools.map((tool) => (
-                    <button
-                      key={tool.id}
-                      onClick={() => !tool.disabled && setSelectedTool(tool.id)}
-                      disabled={tool.disabled}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
-                        selectedTool === tool.id
-                          ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
-                          : tool.disabled
-                          ? 'text-gray-600 cursor-not-allowed'
-                          : 'text-gray-300 hover:bg-white/5 hover:text-white'
-                      }`}
-                    >
-                      <span>{tool.icon}</span>
-                      <span className="flex-1">{tool.name}</span>
-                      {selectedTool === tool.id && <span className="text-cyan-400">✓</span>}
-                      {tool.disabled && <span className="text-xs text-gray-600">Soon</span>}
-                    </button>
-                  ))}
+      {/* Left Sidebar - Tools List */}
+      <div className={`
+        bg-slate-900 border-r border-white/10 transition-all duration-300 
+        lg:relative lg:flex-shrink-0
+        ${showLeftSidebar ? 'fixed lg:static inset-y-0 left-0 z-40 w-64' : 'w-0 -translate-x-full lg:translate-x-0'}
+      `}>
+        {showLeftSidebar && (
+          <div className="h-full overflow-y-auto p-4 w-64">
+            {/* Header */}
+            <div className="mb-6">
+              <h2 className="text-xl font-bold text-white mb-2">Applied Math Lab</h2>
+              <button
+                onClick={onClose}
+                className="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition-colors"
+              >
+                ← Back to Home
+              </button>
+            </div>
+
+            {/* Categories */}
+            <div className="space-y-6">
+              {toolCategories.map((category) => (
+                <div key={category.name}>
+                  <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                    {category.name}
+                  </h3>
+                  <div className="space-y-1">
+                    {category.tools.map((tool) => (
+                      <button
+                        key={tool.id}
+                        onClick={() => !tool.disabled && setSelectedTool(tool.id)}
+                        disabled={tool.disabled}
+                        className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+                          selectedTool === tool.id
+                            ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+                            : tool.disabled
+                            ? 'text-gray-600 cursor-not-allowed'
+                            : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                        }`}
+                      >
+                        <span>{tool.icon}</span>
+                        <span className="flex-1">{tool.name}</span>
+                        {selectedTool === tool.id && <span className="text-cyan-400">✓</span>}
+                        {tool.disabled && <span className="text-xs text-gray-600">Soon</span>}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
-        <div className="bg-slate-900 border-b border-white/10 px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="bg-slate-900 border-b border-white/10 px-4 md:px-6 py-3 md:py-4 flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
             <button
               onClick={() => setShowLeftSidebar(!showLeftSidebar)}
-              className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+              className="p-2 hover:bg-white/5 rounded-lg transition-colors flex-shrink-0"
               title="Toggle tools list"
             >
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            <div>
-              <h1 className="text-xl font-bold text-white flex items-center gap-2">
-                <span>{currentTool?.icon}</span>
-                {currentTool?.name}
+            <div className="min-w-0">
+              <h1 className="text-base md:text-xl font-bold text-white flex items-center gap-2 truncate">
+                <span className="flex-shrink-0">{currentTool?.icon}</span>
+                <span className="truncate">{currentTool?.name}</span>
               </h1>
             </div>
           </div>
@@ -317,7 +349,7 @@ const ToolWorkspace = ({ initialTool, onClose }) => {
               title="Toggle guide"
             >
               <span>📖</span>
-              <span className="hidden md:inline">Guide</span>
+              <span className="hidden sm:inline">Guide</span>
             </button>
             <button
               onClick={onClose}
@@ -331,48 +363,52 @@ const ToolWorkspace = ({ initialTool, onClose }) => {
         {/* Demo + Guide */}
         <div className="flex-1 flex overflow-hidden">
           {/* Center - Demo Area */}
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto bg-slate-950 min-w-0">
             {renderDemo()}
           </div>
 
           {/* Right Sidebar - Guide */}
-          <div className={`bg-slate-900 border-l border-white/10 transition-all duration-300 ${
-            showRightSidebar ? 'w-80' : 'w-0'
-          } overflow-hidden`}>
-            <div className="h-full overflow-y-auto p-6">
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
-                  <span>📖</span>
-                  {guideContent.title}
-                </h2>
-                <p className="text-xs text-gray-500">Learn the concepts</p>
-              </div>
+          <div className={`
+            bg-slate-900 border-l border-white/10 transition-all duration-300
+            lg:relative lg:flex-shrink-0
+            ${showRightSidebar ? 'fixed lg:static inset-y-0 right-0 z-40 w-80' : 'w-0 translate-x-full lg:translate-x-0'}
+          `}>
+            {showRightSidebar && (
+              <div className="h-full overflow-y-auto p-6 w-80">
+                <div className="mb-6">
+                  <h2 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                    <span>📖</span>
+                    {guideContent.title}
+                  </h2>
+                  <p className="text-xs text-gray-500">Learn the concepts</p>
+                </div>
 
-              <div className="space-y-6">
-                {guideContent.sections.map((section, idx) => (
-                  <div key={idx}>
-                    <h3 className="text-sm font-bold text-cyan-400 mb-2">
-                      {section.heading}
-                    </h3>
-                    {section.content && (
-                      <p className="text-sm text-gray-300 leading-relaxed mb-3">
-                        {section.content}
-                      </p>
-                    )}
-                    {section.list && (
-                      <ul className="space-y-2">
-                        {section.list.map((item, i) => (
-                          <li key={i} className="text-sm text-gray-400 flex gap-2">
-                            <span className="text-cyan-500">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                ))}
+                <div className="space-y-6">
+                  {guideContent.sections.map((section, idx) => (
+                    <div key={idx}>
+                      <h3 className="text-sm font-bold text-cyan-400 mb-2">
+                        {section.heading}
+                      </h3>
+                      {section.content && (
+                        <p className="text-sm text-gray-300 leading-relaxed mb-3">
+                          {section.content}
+                        </p>
+                      )}
+                      {section.list && (
+                        <ul className="space-y-2">
+                          {section.list.map((item, i) => (
+                            <li key={i} className="text-sm text-gray-400 flex gap-2">
+                              <span className="text-cyan-500">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

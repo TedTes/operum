@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import MatrixTransform from './MatrixTransform';
-import GradientDescent from './GradientDescent';
-import VectorSpaces from './VectorSpaces';
 import ToolWorkspace from './ToolWorkSpace';
 import SVD from './SVD';
 
