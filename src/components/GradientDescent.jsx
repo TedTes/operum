@@ -200,7 +200,7 @@ const GradientDescent = ({ onClose }) => {
   const isConverged = currentLoss < 0.01;
 
   return (
-    <div className="p-6 md:p-8 h-full overflow-y-auto">
+    <div className="p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Canvas */}

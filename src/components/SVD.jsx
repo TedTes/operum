@@ -228,7 +228,7 @@ const SVD = ({ onClose }) => {
   const compressionRatio = ((1 - rank / maxRank) * 100).toFixed(0);
 
   return (
-    <div className="p-6 md:p-8 h-full overflow-y-auto">
+    <div className="p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Canvas */}
