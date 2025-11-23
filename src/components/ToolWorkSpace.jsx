@@ -9,7 +9,8 @@ import {LagrangeMultipliers,
   ProbabilityDistributions,
   BayesianInference,
   MonteCarlo,
-  LinearRegression
+  LinearRegression,
+  LogisticRegression
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -58,7 +59,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮'},
         { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰' },
         { id: 'linear-regression', name: 'Linear Regression', icon: '📊' },
-        { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈', disabled: true },
+        { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈'},
         { id: 'hypothesis-test', name: 'Hypothesis Testing', icon: '🧪', disabled: true }
       ]
     },
@@ -107,6 +108,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <MonteCarlo onClose={() => {}} />;
       case 'linear-regression':
         return <LinearRegression onClose={() => {}} />;
+      case 'logistic-regression':
+        return <LogisticRegression onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -479,6 +482,46 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Click to add points, drag to move them - see line adjust instantly',
         'Turn on residuals - see which points have largest errors',
         'Click "Animate Fitting" - watch gradient descent find the line from scratch!'
+      ]
+    }
+  ]
+},
+'logistic-regression': {
+  title: 'Logistic Regression',
+  sections: [
+    {
+      heading: 'What Is Logistic Regression?',
+      content: 'Logistic regression is for binary classification - predicting yes/no, spam/not spam, cat/dog. It uses the sigmoid function to output probabilities (0 to 1), then draws a decision boundary to separate classes.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Logistic regression is THE foundation of classification in ML. Used in: spam detection, medical diagnosis, credit scoring, click prediction, fraud detection, and as building blocks in neural networks. It\'s interpretable and fast.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Unlike linear regression (predicts numbers), logistic regression predicts categories. The sigmoid function σ(z) = 1/(1+e⁻ᶻ) squashes any input into 0-1 range. Output > 0.5? Predict class 1. Otherwise? Class 0. The decision boundary is where probability = 0.5.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Binary Classification: Two classes (0 vs 1, blue vs red)',
+        'Sigmoid Function: Maps z → probability ∈ [0,1]',
+        'Decision Boundary: Line where P(y=1) = 0.5',
+        'Log Loss: Penalizes confident wrong predictions heavily',
+        'Accuracy: % of correct predictions',
+        'Green outline = correct, Orange outline = misclassified'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Load "Separable" - perfect 100% accuracy, clear boundary',
+        'Load "Overlap" - classes mix, see some orange outlines',
+        'Load "XOR" - logistic regression FAILS! (needs non-linear)',
+        'Toggle "Show Probabilities" - see heatmap (blue→red gradient)',
+        'Click to add points (toggle class with buttons)',
+        'Drag points across boundary - watch accuracy change!',
+        'Animate Training - see boundary learn from scratch'
       ]
     }
   ]
