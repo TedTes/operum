@@ -7,7 +7,8 @@ import {LagrangeMultipliers,
   MatrixTransform,
   ConvexOptimization,
   ProbabilityDistributions,
-  BayesianInference
+  BayesianInference,
+  MonteCarlo
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -54,7 +55,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       tools: [
         { id: 'probability-dist', name: 'Probability Distributions', icon: '🎲'},
         { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮'},
-        { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰', disabled: true },
+        { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰' },
         { id: 'linear-regression', name: 'Linear Regression', icon: '📊', disabled: true },
         { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈', disabled: true },
         { id: 'hypothesis-test', name: 'Hypothesis Testing', icon: '🧪', disabled: true }
@@ -101,6 +102,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <ProbabilityDistributions onClose={() => {}} />;
       case 'bayes-theorem':
         return <BayesianInference onClose={() => {}} />;
+      case 'monte-carlo':
+        return <MonteCarlo onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -400,7 +403,44 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       ]
     }
   ]
-}
+},
+'monte-carlo': {
+        title: 'Monte Carlo Methods',
+        sections: [
+          {
+            heading: 'What Are Monte Carlo Methods?',
+            content: 'Monte Carlo methods use random sampling to solve problems that are difficult or impossible to solve analytically. Named after the famous Monaco casino, these techniques turn randomness into reliable answers through the Law of Large Numbers.'
+          },
+          {
+            heading: 'Why It Matters',
+            content: 'Monte Carlo is everywhere: finance (risk analysis), physics (particle simulations), machine learning (reinforcement learning, dropout), computer graphics (ray tracing), and scientific computing. When you can\'t solve it exactly, sample it!'
+          },
+          {
+            heading: 'The Intuition',
+            content: 'Imagine estimating the area of a pond by throwing random pebbles. If 30% land in the pond, the pond is ~30% of the total area. More pebbles = better estimate. This is Monte Carlo: using randomness to approximate complex quantities.'
+          },
+          {
+            heading: 'Key Concepts',
+            list: [
+              'Random Sampling: Generate random points to explore space',
+              'Law of Large Numbers: More samples → better estimates',
+              'Convergence: Error decreases as ~1/√n (need 4x samples to halve error)',
+              'Integration: Estimate areas/volumes by counting samples',
+              'Random Walks: Model diffusion, stock prices, Brownian motion'
+            ]
+          },
+          {
+            heading: 'Try This',
+            list: [
+              'Pi Estimation: Watch π emerge from random dots! Green inside circle, red outside',
+              'Integration: Estimate ∫₀¹ x² dx (true value = 1/3) by random sampling',
+              'Random Walk: See a drunk walker\'s path - displacement grows as √steps',
+              'Increase speed and watch estimates converge to true values',
+              'Compare: 100 samples vs 10,000 samples - see accuracy improve!'
+            ]
+          }
+        ]
+      }
     };
 
     return guides[selectedTool] || {
