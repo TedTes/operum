@@ -8,7 +8,8 @@ import {LagrangeMultipliers,
   ConvexOptimization,
   ProbabilityDistributions,
   BayesianInference,
-  MonteCarlo
+  MonteCarlo,
+  LinearRegression
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -56,7 +57,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         { id: 'probability-dist', name: 'Probability Distributions', icon: '🎲'},
         { id: 'bayes-theorem', name: 'Bayesian Inference', icon: '🔮'},
         { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰' },
-        { id: 'linear-regression', name: 'Linear Regression', icon: '📊', disabled: true },
+        { id: 'linear-regression', name: 'Linear Regression', icon: '📊' },
         { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈', disabled: true },
         { id: 'hypothesis-test', name: 'Hypothesis Testing', icon: '🧪', disabled: true }
       ]
@@ -104,6 +105,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <BayesianInference onClose={() => {}} />;
       case 'monte-carlo':
         return <MonteCarlo onClose={() => {}} />;
+      case 'linear-regression':
+        return <LinearRegression onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -440,7 +443,46 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
             ]
           }
         ]
-      }
+      },
+      'linear-regression': {
+  title: 'Linear Regression',
+  sections: [
+    {
+      heading: 'What Is Linear Regression?',
+      content: 'Linear regression finds the best-fit straight line through data points. It\'s the foundation of predictive modeling - given x, predict y. The line minimizes the sum of squared distances (residuals) from points to the line.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Linear regression is THE starting point for machine learning. It\'s used everywhere: predicting house prices, sales forecasting, trend analysis, A/B testing, and as a baseline for complex models. Understanding regression is essential for data science.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine trying to draw a line through scattered points. Too steep? Points above are far away. Too flat? Points below are far. The regression line is the "Goldilocks" line - just right! It balances all the errors to minimize total squared distance.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Equation: y = mx + b (slope m, intercept b)',
+        'Residuals: Vertical distance from point to line (red dashed lines)',
+        'R² Score: 0 to 1 - how well the line fits (1 = perfect, 0 = useless)',
+        'RMSE: Root Mean Squared Error - average prediction error',
+        'Least Squares: Minimizes sum of squared residuals',
+        'Outliers: Points far from line (highlighted in orange) - they pull the line!'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Load "Linear" dataset - see perfect fit (high R²)',
+        'Load "Noisy" - see how scatter reduces R²',
+        'Load "Outliers" - watch orange points pull the line!',
+        'Click to add points, drag to move them - see line adjust instantly',
+        'Turn on residuals - see which points have largest errors',
+        'Click "Animate Fitting" - watch gradient descent find the line from scratch!'
+      ]
+    }
+  ]
+}
     };
 
     return guides[selectedTool] || {
