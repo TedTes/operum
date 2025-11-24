@@ -11,7 +11,8 @@ import {LagrangeMultipliers,
   MonteCarlo,
   LinearRegression,
   LogisticRegression,
-  HypothesisTesting
+  HypothesisTesting,
+  ActivationFunctions
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -69,7 +70,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       tools: [
         { id: 'neural-network', name: 'Neural Network Playground', icon: '🧠', disabled: true },
         { id: 'backprop', name: 'Backpropagation', icon: '🔄', disabled: true },
-        { id: 'activation-functions', name: 'Activation Functions', icon: '⚡', disabled: true },
+        { id: 'activation-functions', name: 'Activation Functions', icon: '⚡'},
         { id: 'convolution', name: 'Convolution Operation', icon: '🖼️', disabled: true },
         { id: 'attention', name: 'Attention Mechanism', icon: '👁️', disabled: true }
       ]
@@ -111,8 +112,10 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <LinearRegression onClose={() => {}} />;
       case 'logistic-regression':
         return <LogisticRegression onClose={() => {}} />;
-      case 'hypothesis-test':                           // ← ADD
+      case 'hypothesis-test': 
         return <HypothesisTesting onClose={() => {}} />;
+      case 'activation-functions':
+        return <ActivationFunctions onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -567,6 +570,48 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Click "Animate Sampling" → see p-values vary!',
         'Confidence interval includes μ₀? → Don\'t reject H₀',
         'Green line (x̄) far from red line (μ₀)? → Reject!'
+      ]
+    }
+  ]
+},
+'activation-functions': {
+  title: 'Activation Functions',
+  sections: [
+    {
+      heading: 'What Are Activation Functions?',
+      content: 'Activation functions introduce non-linearity into neural networks. Without them, stacking layers would just be matrix multiplication - no matter how deep, equivalent to single layer! They decide what signal to pass forward.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'The choice of activation function dramatically affects: training speed, convergence, vanishing/exploding gradients, and final accuracy. ReLU\'s invention was a breakthrough that enabled deep learning. Modern AI wouldn\'t exist without good activations!'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Think of neurons as decision makers. Activation functions shape HOW they decide. ReLU: "negative? ignore it." Sigmoid: "smoosh everything to 0-1." Each has trade-offs. The derivative matters for learning - flat derivatives → no learning!'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Non-linearity: Enables learning complex patterns',
+        'Vanishing Gradient: When f\'(x) → 0, learning stops',
+        'Dead Neurons: ReLU neurons that output 0 forever',
+        'Saturation: When function flattens (sigmoid, tanh)',
+        'Zero-centered: Tanh outputs around 0, helps learning',
+        'ReLU: Most popular, fast, but can die',
+        'Sigmoid: For binary outputs, not hidden layers!',
+        'Derivative: Shows how much gradient flows back'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Compare All Functions → see shapes side-by-side',
+        'Toggle Derivative → watch sigmoid/tanh vanish at edges!',
+        'Slide input value → see output change',
+        'Animate Signal → watch propagation through function',
+        'ReLU: flat for x < 0 (dead neuron zone)',
+        'Sigmoid: check derivative - always < 0.25!',
+        'Leaky ReLU: small negative slope prevents death'
       ]
     }
   ]
