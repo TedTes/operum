@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import {LagrangeMultipliers,
+import {
+  LagrangeMultipliers,
   SVD,
   VectorSpaces,
   GradientDescent,
@@ -14,8 +15,9 @@ import {LagrangeMultipliers,
   HypothesisTesting,
   ActivationFunctions,
   NeuralNetworkPlayground,
-  Backpropagation
-} from "./"
+  Backpropagation,
+  ConvolutionOperation
+} from "./";
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
   const [showLeftSidebar, setShowLeftSidebar] = useState(true);
@@ -73,7 +75,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         { id: 'neural-network', name: 'Neural Network Playground', icon: '🧠'},
         { id: 'backprop', name: 'Backpropagation', icon: '🔄' },
         { id: 'activation-functions', name: 'Activation Functions', icon: '⚡'},
-        { id: 'convolution', name: 'Convolution Operation', icon: '🖼️', disabled: true },
+        { id: 'convolution', name: 'Convolution Operation', icon: '🖼️'},
         { id: 'attention', name: 'Attention Mechanism', icon: '👁️', disabled: true }
       ]
     }
@@ -122,6 +124,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
          return <NeuralNetworkPlayground onClose={() => {}} />;
       case 'backprop':
          return <Backpropagation onClose={() => {}} />;
+      case 'convolution': 
+         return <ConvolutionOperation onClose={() => {}} />; 
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -700,6 +704,48 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Watch neurons glow yellow on their active step',
         'Green arrow = forward, Purple arrow = backward',
         'Gradients get smaller as they flow back (vanishing!)'
+      ]
+    }
+  ]
+},
+'convolution': {
+  title: 'Convolution Operation',
+  sections: [
+    {
+      heading: 'What Is Convolution?',
+      content: 'Convolution slides a small filter (kernel) across an image, computing a weighted sum at each position. It\'s the fundamental operation in Convolutional Neural Networks (CNNs). Each filter detects different features: edges, textures, patterns.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'CNNs revolutionized computer vision! AlexNet (2012) won ImageNet with convolution. Now used in: face recognition, self-driving cars, medical imaging, object detection, image generation (GANs, Diffusion). Understanding convolution = understanding modern vision AI.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine sliding a magnifying glass across a picture. At each spot, you compute: pixel×weight + pixel×weight + ... The filter learns WHAT to look for (edges? curves?). Early layers find simple patterns. Deeper layers combine them into complex objects. This is how machines "see"!'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Kernel/Filter: Small matrix (3×3, 5×5) of weights',
+        'Stride: How many pixels to skip (stride=2 → half size)',
+        'Padding: Border pixels added (keeps size constant)',
+        'Feature Map: Output after convolution',
+        'Receptive Field: Input region affecting one output pixel',
+        'Edge Detection: Filters highlight boundaries',
+        'Translation Invariance: Detects features anywhere in image',
+        'Parameter Sharing: Same filter used everywhere (efficient!)'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Edge Detection → see boundaries highlight!',
+        'Blur → watch image smooth out',
+        'Animate Convolution → see filter slide across',
+        'Increase stride → output gets smaller',
+        'Add padding → output stays same size',
+        'Try all filters → see different features extracted',
+        'Notice: kernel values determine what feature detected'
       ]
     }
   ]
