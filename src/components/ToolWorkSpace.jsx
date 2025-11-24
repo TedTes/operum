@@ -12,7 +12,8 @@ import {LagrangeMultipliers,
   LinearRegression,
   LogisticRegression,
   HypothesisTesting,
-  ActivationFunctions
+  ActivationFunctions,
+  NeuralNetworkPlayground
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -68,7 +69,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
     {
       name: 'Deep Learning',
       tools: [
-        { id: 'neural-network', name: 'Neural Network Playground', icon: '🧠', disabled: true },
+        { id: 'neural-network', name: 'Neural Network Playground', icon: '🧠'},
         { id: 'backprop', name: 'Backpropagation', icon: '🔄', disabled: true },
         { id: 'activation-functions', name: 'Activation Functions', icon: '⚡'},
         { id: 'convolution', name: 'Convolution Operation', icon: '🖼️', disabled: true },
@@ -116,6 +117,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <HypothesisTesting onClose={() => {}} />;
       case 'activation-functions':
         return <ActivationFunctions onClose={() => {}} />;
+      case 'neural-network':
+         return <NeuralNetworkPlayground onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -379,7 +382,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
     }
   ]
 },
-'bayes-theorem': {  // ← ADD THIS ENTIRE OBJECT
+'bayes-theorem': { 
   title: 'Bayesian Inference',
   sections: [
     {
@@ -612,6 +615,47 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'ReLU: flat for x < 0 (dead neuron zone)',
         'Sigmoid: check derivative - always < 0.25!',
         'Leaky ReLU: small negative slope prevents death'
+      ]
+    }
+  ]
+},
+'neural-network': {
+  title: 'Neural Network Playground',
+  sections: [
+    {
+      heading: 'What Is This?',
+      content: 'Build and train your own neural network! See how hidden layers, activation functions, and learning rates affect performance. Watch the decision boundary form in real-time as the network learns.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'This is HOW deep learning works. Every modern AI (GPT, DALL-E, AlphaGo) uses these same principles: layers of neurons, activation functions, gradient descent. Understanding this is understanding AI.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Each neuron is a tiny decision maker. The first layer detects simple patterns (edges, colors). Deeper layers combine these into complex concepts (faces, objects). The output layer makes the final decision. Training adjusts all the connections (weights) to minimize errors.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Hidden Layers: More layers = more complex patterns',
+        'Neurons: More neurons = more capacity (but slower)',
+        'Weights: Connection strengths (green=positive, red=negative)',
+        'Decision Boundary: Where the network switches predictions',
+        'Epochs: Number of training iterations',
+        'Learning Rate: How big the update steps are',
+        'Overfitting: Memorizing training data (high accuracy, poor generalization)'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Linear dataset: Try 1 hidden layer with 2 neurons → solves it!',
+        'XOR dataset: Need at least 2 hidden neurons → try it!',
+        'Spiral: Need deeper network (4-6 neurons per layer)',
+        'Increase learning rate → faster but unstable',
+        'More hidden neurons → can solve harder problems',
+        'Watch decision boundary morph during training',
+        'Compare ReLU vs Sigmoid activation'
       ]
     }
   ]
