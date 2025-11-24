@@ -10,7 +10,8 @@ import {LagrangeMultipliers,
   BayesianInference,
   MonteCarlo,
   LinearRegression,
-  LogisticRegression
+  LogisticRegression,
+  HypothesisTesting
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -60,7 +61,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         { id: 'monte-carlo', name: 'Monte Carlo Methods', icon: '🎰' },
         { id: 'linear-regression', name: 'Linear Regression', icon: '📊' },
         { id: 'logistic-regression', name: 'Logistic Regression', icon: '📈'},
-        { id: 'hypothesis-test', name: 'Hypothesis Testing', icon: '🧪', disabled: true }
+        { id: 'hypothesis-test', name: 'Hypothesis Testing', icon: '🧪'}
       ]
     },
     {
@@ -110,6 +111,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <LinearRegression onClose={() => {}} />;
       case 'logistic-regression':
         return <LogisticRegression onClose={() => {}} />;
+      case 'hypothesis-test':                           // ← ADD
+        return <HypothesisTesting onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -522,6 +525,48 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Click to add points (toggle class with buttons)',
         'Drag points across boundary - watch accuracy change!',
         'Animate Training - see boundary learn from scratch'
+      ]
+    }
+  ]
+},
+'hypothesis-test': {
+  title: 'Hypothesis Testing',
+  sections: [
+    {
+      heading: 'What Is Hypothesis Testing?',
+      content: 'Hypothesis testing is how we make decisions with data. We start with a null hypothesis (H₀: "nothing special is happening") and ask: is our data weird enough to reject it? The p-value tells us how "weird" our data is if H₀ is true.'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Hypothesis testing is the foundation of scientific inference. Used in: A/B testing (does the new design work better?), clinical trials (does the drug work?), quality control (is the process broken?), and research (is this effect real?). It prevents false conclusions.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine claiming a coin is unfair. You flip it 100 times and get 60 heads. Is that weird enough to prove your claim? Hypothesis testing answers this: "If the coin were fair (H₀), how likely is 60+ heads?" If very unlikely (p < 0.05), we reject fairness. Otherwise, we can\'t prove it\'s unfair.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'H₀ (Null): Default assumption (no effect, no difference)',
+        'H₁ (Alternative): What we want to prove',
+        'p-value: Probability of data this extreme if H₀ is true',
+        'α (alpha): Threshold for significance (typically 0.05)',
+        't-statistic: How many standard errors away from H₀',
+        'Type I error: Rejecting true H₀ (false positive)',
+        'Type II error: Failing to reject false H₀ (false negative)',
+        'Confidence Interval: Range where true mean likely lies'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Set μ₀ = 100, sample mean = 105 → likely reject H₀',
+        'Increase sample size → smaller p-values (more power)',
+        'Set α = 0.01 → stricter threshold, fewer rejections',
+        'Toggle "Critical Region" → see red rejection zones',
+        'Click "Animate Sampling" → see p-values vary!',
+        'Confidence interval includes μ₀? → Don\'t reject H₀',
+        'Green line (x̄) far from red line (μ₀)? → Reject!'
       ]
     }
   ]

@@ -12,3 +12,4 @@ export * from "./BayesianInference";
 export * from "./MonteCarlo";
 export * from "./LinearRegression";
 export * from "./LogisticRegression";
+export * from "./HypothesisTesting";
