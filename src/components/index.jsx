@@ -15,3 +15,4 @@ export * from "./LogisticRegression";
 export * from "./HypothesisTesting";
 export * from "./ActivationFunctions";
 export * from "./NeuralNetworkPlayground";
+export * from "./Backpropagation";

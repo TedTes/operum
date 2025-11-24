@@ -13,7 +13,8 @@ import {LagrangeMultipliers,
   LogisticRegression,
   HypothesisTesting,
   ActivationFunctions,
-  NeuralNetworkPlayground
+  NeuralNetworkPlayground,
+  Backpropagation
 } from "./"
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -70,7 +71,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       name: 'Deep Learning',
       tools: [
         { id: 'neural-network', name: 'Neural Network Playground', icon: '🧠'},
-        { id: 'backprop', name: 'Backpropagation', icon: '🔄', disabled: true },
+        { id: 'backprop', name: 'Backpropagation', icon: '🔄' },
         { id: 'activation-functions', name: 'Activation Functions', icon: '⚡'},
         { id: 'convolution', name: 'Convolution Operation', icon: '🖼️', disabled: true },
         { id: 'attention', name: 'Attention Mechanism', icon: '👁️', disabled: true }
@@ -119,6 +120,8 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         return <ActivationFunctions onClose={() => {}} />;
       case 'neural-network':
          return <NeuralNetworkPlayground onClose={() => {}} />;
+      case 'backprop':
+         return <Backpropagation onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -656,6 +659,47 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'More hidden neurons → can solve harder problems',
         'Watch decision boundary morph during training',
         'Compare ReLU vs Sigmoid activation'
+      ]
+    }
+  ]
+},
+'backprop': {
+  title: 'Backpropagation',
+  sections: [
+    {
+      heading: 'What Is Backpropagation?',
+      content: 'Backpropagation (backprop) is HOW neural networks learn. It\'s the algorithm that calculates gradients for every weight in the network by applying the chain rule backward through layers. Without backprop, deep learning wouldn\'t exist!'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'This is the SECRET SAUCE of AI. Every neural network (GPT, DALL-E, AlphaGo) uses backpropagation to learn. Understanding this is understanding how machines learn from data. It\'s just calculus (chain rule) + clever bookkeeping.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Imagine tweaking a knob on a machine and watching the output change. Backprop tells you EXACTLY how much each knob (weight) contributed to the error. Forward pass makes predictions. Backward pass figures out blame. Then we adjust weights to reduce error.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Forward Pass: Input → activations → output → loss',
+        'Backward Pass: Loss → gradients → back through network',
+        'Chain Rule: Multiply derivatives layer by layer',
+        'Gradients (∇): Direction and magnitude of weight changes',
+        'Weight Update: w = w - α·∇L (gradient descent)',
+        'Vanishing Gradient: Derivatives shrink in deep networks',
+        'Learning Rate (α): How big the weight updates are'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Click Play - watch full forward + backward pass',
+        'Toggle "Show Gradients" - see ∇ on each connection',
+        'Step through manually - understand each calculation',
+        'Notice: output gradient computed first, then flows back',
+        'Watch neurons glow yellow on their active step',
+        'Green arrow = forward, Purple arrow = backward',
+        'Gradients get smaller as they flow back (vanishing!)'
       ]
     }
   ]
