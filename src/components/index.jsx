@@ -17,3 +17,4 @@ export * from "./ActivationFunctions";
 export * from "./NeuralNetworkPlayground";
 export * from "./Backpropagation";
 export * from "./ConvolutionOperation";
+export * from "./AttentionMechanism"

@@ -16,7 +16,8 @@ import {
   ActivationFunctions,
   NeuralNetworkPlayground,
   Backpropagation,
-  ConvolutionOperation
+  ConvolutionOperation,
+  AttentionMechanism
 } from "./";
 export const ToolWorkspace = ({ initialTool, onClose }) => {
   const [selectedTool, setSelectedTool] = useState(initialTool);
@@ -76,7 +77,7 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         { id: 'backprop', name: 'Backpropagation', icon: '🔄' },
         { id: 'activation-functions', name: 'Activation Functions', icon: '⚡'},
         { id: 'convolution', name: 'Convolution Operation', icon: '🖼️'},
-        { id: 'attention', name: 'Attention Mechanism', icon: '👁️', disabled: true }
+        { id: 'attention', name: 'Attention Mechanism', icon: '👁️'}
       ]
     }
   ];
@@ -125,7 +126,9 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
       case 'backprop':
          return <Backpropagation onClose={() => {}} />;
       case 'convolution': 
-         return <ConvolutionOperation onClose={() => {}} />; 
+         return <ConvolutionOperation onClose={() => {}} />;
+      case 'attention':
+        return <AttentionMechanism onClose={() => {}} />;
       default:
         return (
           <div className="flex items-center justify-center h-full">
@@ -746,6 +749,48 @@ export const ToolWorkspace = ({ initialTool, onClose }) => {
         'Add padding → output stays same size',
         'Try all filters → see different features extracted',
         'Notice: kernel values determine what feature detected'
+      ]
+    }
+  ]
+},
+'attention': {
+  title: 'Attention Mechanism',
+  sections: [
+    {
+      heading: 'What Is Attention?',
+      content: 'Attention lets each word in a sentence look at every other word and decide: "How relevant is this to me?" It\'s the core innovation in Transformers. Instead of processing sequentially (RNNs), attention looks at everything at once - in parallel!'
+    },
+    {
+      heading: 'Why It Matters',
+      content: 'Attention changed EVERYTHING. It powers: GPT (text generation), BERT (understanding), Vision Transformers (images), Whisper (speech), AlphaFold (protein folding). "Attention is All You Need" (2017) started the modern AI revolution. Every major AI breakthrough since uses attention.'
+    },
+    {
+      heading: 'The Intuition',
+      content: 'Think of reading: "The animal didn\'t cross the street because IT was too tired." What does "IT" refer to? Your brain automatically knows: "the animal" (not the street!). That\'s attention - figuring out which words relate to which. Neural networks do this with Query-Key-Value mechanics.'
+    },
+    {
+      heading: 'Key Concepts',
+      list: [
+        'Query (Q): What am I looking for? (like a search query)',
+        'Key (K): What do I contain? (like search index)',
+        'Value (V): What should I output? (like search results)',
+        'Score = Q·K: Similarity between query and key',
+        'Softmax: Normalize scores to weights (sum=1)',
+        'Output = Σ(weight × value): Weighted combination',
+        'Self-Attention: Each token attends to all tokens',
+        'Multi-Head: Multiple attention patterns learned'
+      ]
+    },
+    {
+      heading: 'Try This',
+      list: [
+        'Click "cat" → see it attends most to "sat" and "mat"',
+        'Click "sat" → see how verb relates to subject/object',
+        'Click "the" (first) vs "the" (second) → different attention!',
+        'Notice: attention weights always sum to 100%',
+        'Toggle "Show Attention Weights" on/off',
+        'Check raw scores vs softmax weights',
+        'Thicker lines = stronger attention = more relevant'
       ]
     }
   ]
